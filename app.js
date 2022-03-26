@@ -26,7 +26,7 @@ app.post('/cart/:userId', async(req,res)=>{
     try {
         const {userId} = req.params
         const {itemId, quantity} = req.body
-        const newProduct = await pool.query("INSERT INTO cart(userId, itemId, quantity) VALUES ($1,$2,$3) RETURNING *",[userId,itemId,quantity])
+        const newProduct = await pool.query("INSERT INTO cart(userid, itemid, quantity) VALUES ($1,$2,$3) RETURNING *",[userId,itemId,quantity])
         res.json(newProduct.rowCount)
     } catch (error) {
         console.error(error.message)
