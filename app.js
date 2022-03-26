@@ -21,6 +21,21 @@ app.get("/cart/:userId", async(req,res)=>{
     }
 }) 
 
+
+//Get one item in cart
+app.get("/cart/:userId/:itemId",async(req,res)=>{
+    try {
+        const {userId, itemId} = req.params
+
+        let result = await pool.query("select * from cart WHERE userid = $1 and itemid = $2", [userId,itemId])
+
+        res.json(result)
+    } catch (error) {
+        console.error(error.message)
+        res.json(error.message)
+    }
+})
+
 // add item to cart
 app.post('/cart/:userId', async(req,res)=>{
     try {
