@@ -29,7 +29,7 @@ app.get("/cart/:userId/:itemId",async(req,res)=>{
 
         let result = await pool.query("select * from cart WHERE userid = $1 and itemid = $2", [userId,itemId])
 
-        res.json(result)
+        res.json(result.rows)
     } catch (error) {
         console.error(error.message)
         res.json(error.message)
