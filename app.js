@@ -4,6 +4,7 @@ const app = express();
 
 //run queries on the pool
 const pool = require("./db")
+const seed = require("./seed")
 
 app.use(express.json()) // -> req.body
 
@@ -81,6 +82,19 @@ app.get('/', function(req, res) {
     res.send('Hello world!')
 }); 
 
-app.listen(3050, () => {
+app.listen(3050, async() => {
+    try{
+        await seed.query(`CREATE DATABASE cart_database;`);
+        await pool.query(`
+        CREATE TABLE cart(
+            userId VARCHAR(255),
+            itemId INT NOT NULL,
+            quantity INT NOT NULL,
+            createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (userId, itemId)
+        );`);
+    }catch(err){
+        console.log(err)
+    }
     console.log('Server Started');
 });
